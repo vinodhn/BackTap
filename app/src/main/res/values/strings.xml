@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BackTap</string>
+    <string name="double_tap_action_id">mDoubleTapActionId</string>
+    <string name="triple_tap_action_id">mTripleTapActionId</string>
 </resources>
