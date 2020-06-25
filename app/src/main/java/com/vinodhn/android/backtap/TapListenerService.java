@@ -8,10 +8,13 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
@@ -67,16 +70,25 @@ public class TapListenerService extends Service implements SensorEventListener {
         Log.d("AYYYYY", "triggerEvent: ******KNOCK*****");
         Log.d("KNOCKS", "run: " + mTapsDetected);
 
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        if(taps == 2){
+            CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            try {
+                String cameraId = cameraManager.getCameraIdList()[0];
 
-        Notification notification = new NotificationCompat.Builder(this, "BackTapServiceChannel")
-                .setContentTitle("Tap Event Triggered")
-                .setContentText("Taps detected: " + taps)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentIntent(pendingIntent).build();
+                cameraManager.setTorchMode(cameraId, true);
+            }catch (CameraAccessException e){
+                e.printStackTrace();
+            }
+        } else if(taps >=3){
+            CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            try {
+                String cameraId = cameraManager.getCameraIdList()[0];
 
-        NotificationManagerCompat.from(this).notify(1, notification);
+                cameraManager.setTorchMode(cameraId, false);
+            }catch (CameraAccessException e){
+                e.printStackTrace();
+            }
+        }
 
         mTapsDetected = 0;
     }
