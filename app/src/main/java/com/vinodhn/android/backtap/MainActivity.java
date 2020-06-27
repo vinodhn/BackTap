@@ -18,10 +18,12 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // Variable Setup
     public static SensorManager mSensorManager;
     public static Spinner mDoubleTapActionSpinner, mTripleTapActionSpinner;
     public static SharedPreferences mSharedPreferences;
 
+    // TAG for any necessary Log messages.
     private final String TAG = "BackTap.MainActivity";
 
     @Override
@@ -29,8 +31,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set up access to system sensors.
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
+        // Set up the drop down menus on main screen.
         mDoubleTapActionSpinner = findViewById(R.id.DoubleTapActionSpinner);
         mTripleTapActionSpinner = findViewById(R.id.TripleTapActionSpinner);
 
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mDoubleTapActionSpinner.setOnItemSelectedListener(this);
         mTripleTapActionSpinner.setOnItemSelectedListener(this);
 
+        // Set up access to application preferences and set drop downs to previously saved selections.
         mSharedPreferences = getSharedPreferences("com.vinodhn.android.backtap", Context.MODE_PRIVATE);
         mDoubleTapActionSpinner.setSelection(mSharedPreferences.getInt(getString(R.string.double_tap_action_id),0));
         mTripleTapActionSpinner.setSelection(mSharedPreferences.getInt(getString(R.string.triple_tap_action_id),0));
@@ -53,22 +58,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void run(View v){
-
-        Toast.makeText(this, "Started Service", Toast.LENGTH_SHORT).show();
+        // Start service and let user know service is up and running.
+        Toast.makeText(this, "Started BackTap Service", Toast.LENGTH_SHORT).show();
         Intent serviceIntent = new Intent(this, TapListenerService.class);
         startForegroundService(serviceIntent);
 
     }
 
     public void stop(View v){
-
-        Toast.makeText(this, "Stopped Service", Toast.LENGTH_SHORT).show();
+        // Stop service and let user know service has been stopped.
+        Toast.makeText(this, "Stopped BackTap Service", Toast.LENGTH_SHORT).show();
         Intent serviceIntent = new Intent(this, TapListenerService.class);
         stopService(serviceIntent);
     }
 
+    // Item selected handler for drop down menus.
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        // Essentially set up editor for application preferences file and edit on the fly.
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
         switch(adapterView.getId()){
             case R.id.DoubleTapActionSpinner:
