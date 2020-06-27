@@ -1,15 +1,20 @@
 package com.vinodhn.android.backtap;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.List;
 
 public class Actions {
 
@@ -30,13 +35,10 @@ public class Actions {
             case 1:
                 takeScreenshot();
                 break;
+            case 2:
+                openCamera();
+                break;
         }
-    }
-
-    public void takeScreenshot(){
-        Date mCurrentTime = new Date();
-        DateFormat.format("yyyy-MM-dd_hh:mm:ss", mCurrentTime);
-        Log.d(TAG, "triggerAction: takeScreenshot");
     }
 
     public void switchFlashlight(){
@@ -59,6 +61,23 @@ public class Actions {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void takeScreenshot(){
+        Date mCurrentTime = new Date();
+        DateFormat.format("yyyy-MM-dd_hh:mm:ss", mCurrentTime);
+        Log.d(TAG, "triggerAction: takeScreenshot");
+    }
+
+    public void openCamera(){
+        Intent mPackageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> mCameraList = mContext.getPackageManager().queryIntentActivities(mPackageIntent, 0);
+        ResolveInfo mCameraPackage = mCameraList.get(0);
+
+        Intent mLaunchCamera = mContext.getPackageManager().getLaunchIntentForPackage(mCameraPackage.activityInfo.packageName);
+        mLaunchCamera.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(mLaunchCamera);
+
     }
 
 }

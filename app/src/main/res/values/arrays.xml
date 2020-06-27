@@ -3,5 +3,6 @@
     <string-array name="actions_array">
         <item>Toggle Flashlight</item>
         <item>Take Screenshot</item>
+        <item>Open Camera</item>
     </string-array>
 </resources>

@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mTripleTapActionSpinner.setOnItemSelectedListener(this);
 
         mSharedPreferences = getSharedPreferences("com.vinodhn.android.backtap", Context.MODE_PRIVATE);
+        mDoubleTapActionSpinner.setSelection(mSharedPreferences.getInt(getString(R.string.double_tap_action_id),0));
+        mTripleTapActionSpinner.setSelection(mSharedPreferences.getInt(getString(R.string.triple_tap_action_id),0));
 
     }
 
