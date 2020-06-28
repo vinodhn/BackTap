@@ -5,21 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // Variable Setup
-    public static SensorManager mSensorManager;
     public static Spinner mDoubleTapActionSpinner, mTripleTapActionSpinner;
     public static SharedPreferences mSharedPreferences;
 
@@ -30,9 +26,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Set up access to system sensors.
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         // Set up the drop down menus on main screen.
         mDoubleTapActionSpinner = findViewById(R.id.DoubleTapActionSpinner);
@@ -57,20 +50,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void run(View v){
-        // Start service and let user know service is up and running.
-        Toast.makeText(this, "Started BackTap Service", Toast.LENGTH_SHORT).show();
-        Intent serviceIntent = new Intent(this, TapListenerService.class);
-        startForegroundService(serviceIntent);
-
-    }
-
-    public void stop(View v){
-        // Stop service and let user know service has been stopped.
-        Toast.makeText(this, "Stopped BackTap Service", Toast.LENGTH_SHORT).show();
-        Intent serviceIntent = new Intent(this, TapListenerService.class);
-        stopService(serviceIntent);
-    }
+//    public void run(View v){
+//        // Start service and let user know service is up and running.
+//        Toast.makeText(this, "Started BackTap Service", Toast.LENGTH_SHORT).show();
+//        Intent serviceIntent = new Intent(this, TapListenerService.class);
+//        startForegroundService(serviceIntent);
+//
+//    }
+//
+//    public void stop(View v){
+//        // Stop service and let user know service has been stopped.
+//        Toast.makeText(this, "Stopped BackTap Service", Toast.LENGTH_SHORT).show();
+//        Intent serviceIntent = new Intent(this, TapListenerService.class);
+//        stopService(serviceIntent);
+//    }
 
     // Item selected handler for drop down menus.
     @Override

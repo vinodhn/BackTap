@@ -1,11 +1,18 @@
 package com.vinodhn.android.backtap;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
@@ -13,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -28,21 +37,6 @@ public class Actions {
     // Get application context to enable various actions.
     public Actions(Context context){
         mContext = context;
-    }
-
-    // Call on necessary methods based on action ID passed from Tap Listener Service.
-    public void triggerAction(int mActionId){
-        switch(mActionId){
-            case 0:
-                switchFlashlight();
-                break;
-            case 1:
-                takeScreenshot();
-                break;
-            case 2:
-                openCamera();
-                break;
-        }
     }
 
     public void switchFlashlight(){
@@ -72,11 +66,16 @@ public class Actions {
         }
     }
 
-    public void takeScreenshot(){
-        // Currently does not function as name implies.
-        Date mCurrentTime = new Date();
-        DateFormat.format("yyyy-MM-dd_hh:mm:ss", mCurrentTime);
-        Log.d(TAG, "triggerAction: takeScreenshot");
+    public void playPauseMedia(){
+
+    }
+
+    public void nextTrack(){
+
+    }
+
+    public void previousTrack(){
+
     }
 
     public void openCamera(){
@@ -89,7 +88,12 @@ public class Actions {
         Intent mLaunchCamera = mContext.getPackageManager().getLaunchIntentForPackage(mCameraPackage.activityInfo.packageName);
         mLaunchCamera.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(mLaunchCamera);
+    }
 
+    public void openAssistant(){
+        Intent mLaunchAssistant = new Intent(Intent.ACTION_VOICE_COMMAND);
+        mLaunchAssistant.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(mLaunchAssistant);
     }
 
 }
