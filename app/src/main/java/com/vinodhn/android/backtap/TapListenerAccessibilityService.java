@@ -164,30 +164,21 @@ public class TapListenerAccessibilityService extends AccessibilityService implem
                 actions.switchFlashlight();
                 break;
             case 1:
-                actions.playPauseMedia();
-                break;
-            case 2:
-                actions.nextTrack();
-                break;
-            case 3:
-                actions.previousTrack();
-                break;
-            case 4:
                 performGlobalAction(GLOBAL_ACTION_HOME);
                 break;
-            case 5:
+            case 2:
                 performGlobalAction(GLOBAL_ACTION_BACK);
                 break;
-            case 6:
+            case 3:
                 performGlobalAction(GLOBAL_ACTION_RECENTS);
                 break;
-            case 7:
+            case 4:
                 performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                 break;
-            case 8:
+            case 5:
                 actions.openCamera();
                 break;
-            case 9:
+            case 6:
                 actions.openAssistant();
                 break;
         }

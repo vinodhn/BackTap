@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
+import android.media.AudioManager;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
@@ -17,6 +18,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -66,26 +68,8 @@ public class Actions {
         }
     }
 
-    public void playPauseMedia(){
-
-    }
-
-    public void nextTrack(){
-
-    }
-
-    public void previousTrack(){
-
-    }
-
     public void openCamera(){
-        // Search phone for correct package
-        Intent mPackageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> mCameraList = mContext.getPackageManager().queryIntentActivities(mPackageIntent, 0);
-        ResolveInfo mCameraPackage = mCameraList.get(0);
-
-        // And launch said package.
-        Intent mLaunchCamera = mContext.getPackageManager().getLaunchIntentForPackage(mCameraPackage.activityInfo.packageName);
+        Intent mLaunchCamera = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
         mLaunchCamera.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(mLaunchCamera);
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,20 +51,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-//    public void run(View v){
-//        // Start service and let user know service is up and running.
-//        Toast.makeText(this, "Started BackTap Service", Toast.LENGTH_SHORT).show();
-//        Intent serviceIntent = new Intent(this, TapListenerService.class);
-//        startForegroundService(serviceIntent);
-//
-//    }
-//
-//    public void stop(View v){
-//        // Stop service and let user know service has been stopped.
-//        Toast.makeText(this, "Stopped BackTap Service", Toast.LENGTH_SHORT).show();
-//        Intent serviceIntent = new Intent(this, TapListenerService.class);
-//        stopService(serviceIntent);
-//    }
+    public void goToSettings(View v){
+        Intent mLaunchSettings = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        startActivity(mLaunchSettings);
+    }
 
     // Item selected handler for drop down menus.
     @Override

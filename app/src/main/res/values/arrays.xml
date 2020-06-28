@@ -2,9 +2,6 @@
 <resources>
     <string-array name="actions_array">
         <item>Toggle Flashlight</item>
-        <item>Play/Pause Media</item>
-        <item>Next Track</item>
-        <item>Previous Track</item>
         <item>Go Home</item>
         <item>Go Back</item>
         <item>Go to Recents</item>
