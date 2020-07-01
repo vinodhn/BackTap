@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/appIcon"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@mipmap/ic_launcher"
         android:maxHeight="200dp"
         android:adjustViewBounds="true"
         android:layout_alignParentTop="true"
@@ -70,27 +70,15 @@
         android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/warningText"
-        android:layout_centerHorizontal="true"
-        android:text="Turn off and on the service after changing."
-        android:textColor="@color/red"
-        android:textSize="20sp"
-        android:justificationMode="inter_word"
-        android:layout_below="@id/TripleTapActionSpinner"
-        android:layout_marginTop="16dp"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go To Accessibility Settings"
+        android:text="Accessibility Settings"
         android:textSize="20dp"
         android:id="@+id/launchAccessibilityButton"
-        android:layout_below="@id/warningText"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="46dp"
         android:onClick="goToSettings"/>
 
 </RelativeLayout>

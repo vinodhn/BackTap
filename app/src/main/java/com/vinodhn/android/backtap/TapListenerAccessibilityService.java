@@ -50,6 +50,7 @@ public class TapListenerAccessibilityService extends AccessibilityService implem
 
     private Actions actions;
     public int mDoubleTapActionId, mTripleTapActionId;
+    private SharedPreferences mSharedPreferences;
 
     // Tag for any necessary log messages.
     private final String TAG = "BackTap.TapListenerAccessibilityService";
@@ -72,7 +73,7 @@ public class TapListenerAccessibilityService extends AccessibilityService implem
         // This is called when the service is first called.
 
         // Read application preferences and set action ID's to what the user has set them to.
-        SharedPreferences mSharedPreferences = getSharedPreferences("com.vinodhn.android.backtap", Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences("com.vinodhn.android.backtap", Context.MODE_PRIVATE);
         mDoubleTapActionId = mSharedPreferences.getInt(getString(R.string.double_tap_action_id),0);
         mTripleTapActionId = mSharedPreferences.getInt(getString(R.string.triple_tap_action_id),0);
 
@@ -149,6 +150,7 @@ public class TapListenerAccessibilityService extends AccessibilityService implem
                 mTimer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        updateActionId();
                         triggerEvent(mTapsDetected);
                     }
                 }, 700);
@@ -182,6 +184,12 @@ public class TapListenerAccessibilityService extends AccessibilityService implem
                 actions.openAssistant();
                 break;
         }
+    }
+
+    public void updateActionId(){
+        // Read application preferences and update action ID's to what the user has set them to.
+        mDoubleTapActionId = mSharedPreferences.getInt(getString(R.string.double_tap_action_id),0);
+        mTripleTapActionId = mSharedPreferences.getInt(getString(R.string.triple_tap_action_id),0);
     }
 
     @Override

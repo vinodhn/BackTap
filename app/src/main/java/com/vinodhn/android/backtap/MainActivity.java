@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set up the drop down menus on main screen.
+        // Set up the items on main screen.
         mDoubleTapActionSpinner = findViewById(R.id.DoubleTapActionSpinner);
         mTripleTapActionSpinner = findViewById(R.id.TripleTapActionSpinner);
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mDoubleTapActionSpinner.setOnItemSelectedListener(this);
         mTripleTapActionSpinner.setOnItemSelectedListener(this);
 
-        // Set up access to application preferences and set drop downs to previously saved selections.
+        // Set up access to application preferences and set drop downs and sliders to previously saved selections.
         mSharedPreferences = getSharedPreferences("com.vinodhn.android.backtap", Context.MODE_PRIVATE);
         mDoubleTapActionSpinner.setSelection(mSharedPreferences.getInt(getString(R.string.double_tap_action_id),0));
         mTripleTapActionSpinner.setSelection(mSharedPreferences.getInt(getString(R.string.triple_tap_action_id),0));
