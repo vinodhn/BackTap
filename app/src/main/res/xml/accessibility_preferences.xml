@@ -1,0 +1,36 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/actions_header">
+
+        <ListPreference
+            app:defaultValue="double"
+            app:entries="@array/actions_array"
+            app:entryValues="@array/actions_array"
+            app:key="double"
+            app:title="@string/double_tap_label"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="triple"
+            app:entries="@array/actions_array"
+            app:entryValues="@array/actions_array"
+            app:key="triple"
+            app:title="@string/triple_tap_label"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/other_header">
+
+        <Preference
+            app:key="About"
+            app:title="About BackTap"/>
+
+        <Preference
+            app:key="Donate"
+            app:title="Donate"
+            app:summary="Lob a dollar to help a boi out"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

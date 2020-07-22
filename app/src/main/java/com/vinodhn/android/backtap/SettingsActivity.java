@@ -1,41 +1,40 @@
 package com.vinodhn.android.backtap;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
-public class MainActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.settings_activity);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings, new MainActivity.SettingsFragment())
+                .replace(R.id.settings, new SettingsActivity.SettingsFragment())
                 .commit();
         ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         actionBar.setTitle("BackTap Action Settings");
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.accessibility_preferences, rootKey);
 
             final ListPreference mDoubleTapActionPref = findPreference("double");
             final ListPreference mTripleTapActionPref = findPreference("triple");
-            final Preference mAccessibilityPref = findPreference("accessibilitySettings");
             final Preference mAboutPreference = findPreference("About");
             final Preference mDonatePreference = findPreference("Donate");
             SharedPreferences mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -62,18 +61,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-
-            if(mAccessibilityPref != null){
-                mAccessibilityPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        Intent mLaunchSettings = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                        startActivity(mLaunchSettings);
-                        return false;
-                    }
-                });
-            }
-
             if(mAboutPreference != null){
                 mAboutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override

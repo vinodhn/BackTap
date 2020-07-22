@@ -4,4 +4,4 @@
     android:accessibilityFlags="flagDefault"
     android:canPerformGestures="true"
     android:canRetrieveWindowContent="false"
-    android:settingsActivity="com.vinodhn.android.backtap.MainActivity"/>
+    android:settingsActivity="com.vinodhn.android.backtap.SettingsActivity"/>

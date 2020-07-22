@@ -15,11 +15,13 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
 
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 
 import static java.lang.Math.abs;
 
@@ -74,6 +76,7 @@ public class TapListenerAccessibilityService extends AccessibilityService implem
 
         // Read application preferences and set action ID's to what the user has set them to.
         mSharedPreferences = getSharedPreferences("com.vinodhn.android.backtap", Context.MODE_PRIVATE);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mDoubleTapActionId = mSharedPreferences.getInt(getString(R.string.double_tap_action_id),0);
         mTripleTapActionId = mSharedPreferences.getInt(getString(R.string.triple_tap_action_id),0);
 
