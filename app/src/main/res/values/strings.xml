@@ -3,4 +3,12 @@
     <string name="double_tap_action_id">mDoubleTapActionId</string>
     <string name="triple_tap_action_id">mTripleTapActionId</string>
     <string name="tap_sensitivity">mTapSensitivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="actions_header">BackTap Actions</string>
+    <string name="other_header">Other</string>
+    <string name="double_tap_label">Double Tap Action</string>
+    <string name="triple_tap_label">Triple Tap Action</string>
+
 </resources>

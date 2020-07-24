@@ -9,3 +9,13 @@ Currently, I have not exported any APK's from Android Studio so you must build t
 ## Usage
 
 To use BackTap, first set the double tap and triple tap actions. This is done by simply opening the app and using the drop down menus to select your desired actions. Then, use the accessibility settings button to go to your phone's settings and enable the BackTap service.
+
+## Todo
+
+ -Rewrite in Kotlin
+
+ -Export APKs from Android Studio
+ 
+ -Add a sensitivity settings
+ 
+ -Squash whatever bugs exist
