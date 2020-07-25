@@ -14,6 +14,4 @@ To use BackTap, first set the double tap and triple tap actions. This is done by
 
  -Export APKs from Android Studio
  
- -Add a sensitivity settings
- 
  -Squash whatever bugs exist
