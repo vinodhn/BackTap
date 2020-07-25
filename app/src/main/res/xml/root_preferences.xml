@@ -1,6 +1,7 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/actions_header">
+    <PreferenceCategory app:title="@string/general_header">
 
         <ListPreference
             app:defaultValue="double"
@@ -18,13 +19,18 @@
             app:title="@string/triple_tap_label"
             app:useSimpleSummaryProvider="true" />
 
+        <Preference
+            app:key="sensitivity"
+            app:title="@string/sensitivity_slider_label"
+            app:summary="Medium"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/other_header">
 
         <Preference
             app:key="accessibilitySettings"
-            app:title="Go to Accessibility Settings"/>
+            app:title="Accessibility Settings"/>
 
         <Preference
             app:key="About"

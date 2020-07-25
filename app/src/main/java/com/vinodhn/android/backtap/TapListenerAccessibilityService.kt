@@ -19,15 +19,14 @@ import kotlin.math.absoluteValue
 
 class TapListenerAccessibilityService : AccessibilityService(), SensorEventListener {
 
+    // Setting up variables
+
     private var mSensorManager : SensorManager? = null
-    val mThresholdZ = 2f
+    // Edit the following 4 variables to edit sensitivity in different ways
+    var mThresholdZ : Float? = 1f
     val mThresholdX = 8f
     val mThresholdY = 8f
     val mUpdateFrequency = 100
-
-    var mPreviousZValue = 0f
-    var mCurrentZValue = 0f
-    var mDeltaZ = 0f
 
     var mPreviousXValue = 0f
     var mCurrentXValue = 0f
@@ -36,6 +35,10 @@ class TapListenerAccessibilityService : AccessibilityService(), SensorEventListe
     var mPreviousYValue = 0f
     var mCurrentYValue = 0f
     var mDeltaY = 0f
+
+    var mPreviousZValue = 0f
+    var mCurrentZValue = 0f
+    var mDeltaZ : Float? = 0f
 
     var mTimer: Timer? = null
     var mTapsDetected = 0
@@ -56,12 +59,21 @@ class TapListenerAccessibilityService : AccessibilityService(), SensorEventListe
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        Toast.makeText(this, "BackTap Service Connected", Toast.LENGTH_SHORT).show()
 
+        // First get access to the SharedPreferences to set the action IDs
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         mDoubleTapActionId = mSharedPreferences?.getInt(getString(R.string.double_tap_action_id),0)
         mTripleTapActionId = mSharedPreferences?.getInt(getString(R.string.triple_tap_action_id),0)
+        val tapSens = mSharedPreferences?.getInt(getString(R.string.tap_sensitivity),2)
+        when (tapSens) {
+            0 -> mThresholdZ = 2f
+            1 -> mThresholdZ = 1.5f
+            2 -> mThresholdZ = 1f
+            3 -> mThresholdZ = 0.875f
+            4 -> mThresholdZ = 0.75f
+        }
 
+        // Set up access to our actions, flashlight, and accelerometer
         actions = Actions(this)
 
         val torchCallback : CameraManager.TorchCallback = object : CameraManager.TorchCallback() {
@@ -79,10 +91,12 @@ class TapListenerAccessibilityService : AccessibilityService(), SensorEventListe
 
     }
 
+    // Stop reading sensor values once the service stops
     fun stopAccelerometerSensing(){ mSensorManager!!.unregisterListener(this) }
 
     fun resumeAccelerometerSensing(){ mSensorManager!!.registerListener(this, mSensorManager?.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION), 1000000/mUpdateFrequency)}
 
+    // Call on the actions based on number of taps detected
     fun triggerEvent(taps : Int) {
         if(taps == 2){
             triggerAction(mDoubleTapActionId!!)
@@ -92,6 +106,7 @@ class TapListenerAccessibilityService : AccessibilityService(), SensorEventListe
         mTapsDetected = 0
     }
 
+    // Based on the given action ID, call of different actions
     fun triggerAction(mActionId : Int) {
         when (mActionId) {
             0 -> actions!!.switchFlashlight()
@@ -104,13 +119,24 @@ class TapListenerAccessibilityService : AccessibilityService(), SensorEventListe
         }
     }
 
-    fun updateActionId() {
+    // If the user ever changes the actions while service is running, we want to make sure we have
+    // the right IDs
+    fun updateParams() {
         mDoubleTapActionId = mSharedPreferences!!.getInt(getString(R.string.double_tap_action_id),0)
         mTripleTapActionId = mSharedPreferences!!.getInt(getString(R.string.triple_tap_action_id),0)
+        val tapSens = mSharedPreferences?.getInt(getString(R.string.tap_sensitivity),2)
+        when (tapSens) {
+            0 -> mThresholdZ = 2f
+            1 -> mThresholdZ = 1.5f
+            2 -> mThresholdZ = 1f
+            3 -> mThresholdZ = 0.875f
+            4 -> mThresholdZ = 0.75f
+        }
     }
 
+    // Called automatically when the accelerometer data changes
     override fun onSensorChanged(p0: SensorEvent?) {
-
+        // Read the sensor values
         mPreviousXValue = mCurrentXValue
         mCurrentXValue = abs(p0!!.values[0])
         mDeltaX = mCurrentXValue - mPreviousXValue
@@ -123,13 +149,17 @@ class TapListenerAccessibilityService : AccessibilityService(), SensorEventListe
         mCurrentZValue = abs(p0!!.values[2])
         mDeltaZ = mCurrentZValue - mPreviousZValue
 
-        if (mCurrentZValue > mPreviousZValue && mDeltaZ > mThresholdZ && mDeltaX < mThresholdX && mDeltaY < mThresholdY && mCurrentXValue < 1 && mCurrentYValue < 10 && mCurrentYValue > 0) {
+        // Update sensitivity threshold and action IDs
+        updateParams()
+
+        // Make sure that the movement is only within the Z axis and when the phone is upright
+        if (mCurrentZValue > mPreviousZValue && mDeltaZ!! > mThresholdZ!! && mDeltaX < mThresholdX && mDeltaY < mThresholdY && mCurrentXValue < 1 && mCurrentYValue < 10 && mCurrentYValue > 0) {
             Log.d(TAG, "onSensorChanged: Tap Detected ***** " + mTapsDetected)
+            Log.d(TAG, "onSensorChanged: SENSITIVITY: " + mThresholdZ)
             if(mTapsDetected == 0){
                 mTimer = Timer()
                 mTimer!!.schedule(object : TimerTask() {
                     override fun run() {
-                        updateActionId()
                         triggerEvent(mTapsDetected)
                     }
                 },700)

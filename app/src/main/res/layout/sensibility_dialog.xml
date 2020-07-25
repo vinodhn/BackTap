@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tap Sensitivity"
+        android:textSize="18dp"
+        android:padding="16dp"/>
+    
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sensitivitySeekbar"
+        android:min="0"
+        android:max="4"
+        android:progress="2"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:padding="16dp"/>
+
+
+
+</LinearLayout>

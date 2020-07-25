@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -28,14 +29,24 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.accessibility_preferences, rootKey)
+
             val mDoubleTapActionPreference = findPreference<ListPreference>("double")
             val mTripleTapActionPreference = findPreference<ListPreference>("triple")
+            val mSensibilityPreference = findPreference<Preference>("sensitivity")
             val mAboutPreference = findPreference<Preference>("About")
             val mDonatePreference = findPreference<Preference>("Donate")
-            val mSharedPreference: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-            val mEditor: SharedPreferences.Editor = mSharedPreference.edit()
+            val mSharedPreference:SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
+            val mEditor:SharedPreferences.Editor = mSharedPreference.edit()
 
-            mDoubleTapActionPreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+            when (mSharedPreference.getInt(getString(R.string.tap_sensitivity),2)) {
+                0 -> mSensibilityPreference!!.summary = "Low"
+                1 -> mSensibilityPreference!!.summary = "Low-Medium"
+                2 -> mSensibilityPreference!!.summary = "Medium"
+                3 -> mSensibilityPreference!!.summary = "Medium-High"
+                4 -> mSensibilityPreference!!.summary = "High"
+            }
+
+            mDoubleTapActionPreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener {preference, newValue ->
 
                 if(mDoubleTapActionPreference != null) {
                     mEditor.putInt(getString(R.string.double_tap_action_id), mDoubleTapActionPreference.findIndexOfValue(newValue.toString()))
@@ -45,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            mTripleTapActionPreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+            mTripleTapActionPreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener {preference, newValue ->
 
                 if(mTripleTapActionPreference != null){
                     mEditor.putInt(getString(R.string.triple_tap_action_id), mTripleTapActionPreference.findIndexOfValue(newValue.toString()))
@@ -53,6 +64,46 @@ class SettingsActivity : AppCompatActivity() {
                 }
 
                 true
+            }
+
+            mSensibilityPreference?.setOnPreferenceClickListener { preference ->
+
+                val mBuilder:AlertDialog.Builder? = activity?.let { AlertDialog.Builder(it) }
+                val mInflater = activity?.layoutInflater
+
+                mBuilder!!.setView(mInflater!!.inflate(R.layout.sensibility_dialog, null))
+
+                val mDialog:AlertDialog? = mBuilder?.create()
+                mDialog?.show()
+
+                val mSeekBar = mDialog?.findViewById<SeekBar>(R.id.sensitivitySeekbar)
+                mSeekBar?.progress = mSharedPreference.getInt(getString(R.string.tap_sensitivity),2)
+                when (mSeekBar?.progress) {
+                    0 -> mSensibilityPreference.summary = "Low"
+                    1 -> mSensibilityPreference.summary = "Low-Medium"
+                    2 -> mSensibilityPreference.summary = "Medium"
+                    3 -> mSensibilityPreference.summary = "Medium-High"
+                    4 -> mSensibilityPreference.summary = "High"
+                }
+
+                mSeekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {}
+                    override fun onStartTrackingTouch(seek: SeekBar) {}
+                    override fun onStopTrackingTouch(seek: SeekBar) {
+                        mEditor.putInt(getString(R.string.tap_sensitivity), seek.progress)
+                        mEditor.commit()
+
+                        when (mSeekBar?.progress) {
+                            0 -> mSensibilityPreference.summary = "Low"
+                            1 -> mSensibilityPreference.summary = "Low-Medium"
+                            2 -> mSensibilityPreference.summary = "Medium"
+                            3 -> mSensibilityPreference.summary = "Medium-High"
+                            4 -> mSensibilityPreference.summary = "High"
+                        }
+                    }
+                })
+
+                false
             }
 
             mAboutPreference?.setOnPreferenceClickListener { preference ->
@@ -68,6 +119,7 @@ class SettingsActivity : AppCompatActivity() {
 
             mDonatePreference?.setOnPreferenceClickListener { preference ->
                 Toast.makeText(context, "Donate coming soon", Toast.LENGTH_LONG).show()
+
                 false
             }
 

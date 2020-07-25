@@ -14,17 +14,19 @@ class Actions(context : Context?) {
     }
 
     init {
-        Actions.Companion.mContext = context
+        mContext = context
     }
 
     fun switchFlashlight() {
-        val cameraManager = Actions.Companion.mContext?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        // Gain access to cameras
+        val cameraManager = mContext?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         val cameraId = cameraManager.cameraIdList[0]
 
+        // And then check and toggle the flashlight
         try{
-            if(!Actions.Companion.mFlashlightState){
+            if(!mFlashlightState){
                 cameraManager.setTorchMode(cameraId, true)
-            } else if (Actions.Companion.mFlashlightState) {
+            } else if (mFlashlightState) {
                 cameraManager.setTorchMode(cameraId, false)
             }
         } catch (e:CameraAccessException){
@@ -35,13 +37,13 @@ class Actions(context : Context?) {
     fun openCamera() {
         val mLaunchCamera = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
         mLaunchCamera.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        Actions.Companion.mContext?.startActivity(mLaunchCamera)
+        mContext?.startActivity(mLaunchCamera)
     }
 
     fun openAssistant() {
         val mLaunchAssistant = Intent(Intent.ACTION_VOICE_COMMAND)
         mLaunchAssistant.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        Actions.Companion.mContext?.startActivity(mLaunchAssistant)
+        mContext?.startActivity(mLaunchAssistant)
     }
 
 }
