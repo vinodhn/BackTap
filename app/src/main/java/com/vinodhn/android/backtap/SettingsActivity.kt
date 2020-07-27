@@ -34,7 +34,6 @@ class SettingsActivity : AppCompatActivity() {
             val mTripleTapActionPreference = findPreference<ListPreference>("triple")
             val mSensibilityPreference = findPreference<Preference>("sensitivity")
             val mAboutPreference = findPreference<Preference>("About")
-            val mDonatePreference = findPreference<Preference>("Donate")
             val mSharedPreference:SharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
             val mEditor:SharedPreferences.Editor = mSharedPreference.edit()
 
@@ -113,12 +112,6 @@ class SettingsActivity : AppCompatActivity() {
                 mBuilder?.setTitle("About BackTap")
                 val mDialog: AlertDialog? = mBuilder?.create()
                 mDialog?.show()
-
-                false
-            }
-
-            mDonatePreference?.setOnPreferenceClickListener { preference ->
-                Toast.makeText(context, "Donate coming soon", Toast.LENGTH_LONG).show()
 
                 false
             }

@@ -36,11 +36,6 @@
             app:key="About"
             app:title="About BackTap"/>
 
-        <Preference
-            app:key="Donate"
-            app:title="Donate"
-            app:summary="Lob a dollar to help a boi out"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>
