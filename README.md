@@ -4,12 +4,14 @@ BackTap is a simple clone of the iOS 14 and Android 11 Beta "back tap" accessibi
 
 ## Installation
 
-You can download an APK from the releases page. Currently the APKs are manually built and uploaded but I am looking into automating this process so that the latest updates will be available at all times.
+Currently, I am waiting on Google to approve of the Play Store listing. In the mean time, you are free to clone this repo and build the project within Android Studio
 
 ## Usage
 
-To use BackTap, first set the double tap and triple tap actions. This is done by simply opening the app and using the drop down menus to select your desired actions. Then, use the accessibility settings button to go to your phone's settings and enable the BackTap service.
+To use BackTap, just select your desired double tap and triple tap actions. Then, enable the service within the accessibility settings page. Try double tapping and triple tapping the back of your phone and adjust the sensitivity as needed.
 
 ## Todo
+
+ -Maybe add more levels of sensitivity
  
  -Squash whatever bugs exist
